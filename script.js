@@ -1,1 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Agronomia Moderna</title>
+    <style>
+        /* --- VARIÁVEIS DE PALETA DE CORES (CLARA E ESCURA) --- */
+        :root {
+            --bg-principal: #f4f7f5;
+            --bg-card: #ffffff;
+            --texto-principal: #2c3e50;
+            --texto-secundario: #546e7a;
+            --cor-primaria: #2e7d32; /* Verde Agro */
+            --cor-primaria-hover: #1b5e20;
+            --borda: #e0e0e0;
+            --fonte-tamanho-base: 16px;
+        }
 
+        [data-theme="dark"] {
+            --bg-principal: #121814;
+            --bg-card: #1e2621;
+            --texto-principal: #eceff1;
+            --texto-secundario: #b0bec5;
+            --cor-primaria: #4caf50;
+            --cor-primaria-hover: #81c784;
+            --borda: #2e3d35;
+        }
+
+        /* --- CONFIGURAÇÕES GERAIS E RESPONSIVIDADE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, font-size 0.2s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: var(--fonte-tamanho-base);
+            background-color: var(--bg-principal);
+            color: var(--texto-principal);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--borda);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo h1 {
+            color: var(--cor-primaria);
+            font-size: 1.5rem;
+        }
+
+        /* --- BARRA DE ACESSIBILIDADE --- */
+        .acessibilidade-botoes {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-acessivel {
+            background-color: var(--bg-principal);
+            color: var(--texto-principal);
+            border: 1px solid var(--borda);
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .btn-acessivel:hover {
+            border-color: var(--cor-primaria);
+            color: var(--cor-primaria);
+        }
+
+        /* --- CONTEÚDO PRINCIPAL --- */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .grid-artigos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--borda);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            background-color: #ccc; /* Fallback caso falte internet */
+        }
+
+        .card-conteudo {
+            padding: 1.5rem;
+        }
+
+        .card-conteudo h2 {
+            color: var(--cor-primaria);
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+
+        .card-conteudo p {
+            color: var(--texto-secundario);
+            margin-bottom: 1rem;
+        }
+
+        /* --- TEXT-TO-SPEECH HIGHLIGHT --- */
+        .texto-lendo {
+            outline: 2px dashed var(--cor-primaria);
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--borda);
+            color: var(--texto-secundario);
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVIDADE ADICIONAL (TABLETS E CELULARES) --- */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .acessibilidade-botoes {
+                justify-content: center;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>AgroAcessível</h1>
+            </div>
+            
+            <div class="acessibilidade-botoes">
+                <button class="btn-acessivel" id="btn-tema" onclick="alternarTema()" aria-label="Alternar tema claro e escuro">
+                    🌓 Tema
+                </button>
+                <button class="btn-acessivel" onclick="alterarFonte(1)" title="Aumentar Fonte">A+</button>
+                <button class="btn-acessivel" onclick="alterarFonte(-1)" title="Diminuir Fonte">A-</button>
+                <button class="btn-acessivel" id="btn-audio" onclick="alternarAudio()" aria-label="Ouvir texto da página">
+                    🔊 Ouvir Página
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="conteudo-principal">
+        <section>
+            <h2>Inovação e Sustentabilidade no Campo</h2>
+            <p>A agronomia moderna une tecnologia de ponta e preservação ambiental para garantir a segurança alimentar global. Explore nossos artigos abaixo.</p>
+        </section>
+
+        <div class="grid-artigos">
+            <article class="card">
+                <img class="card-img" src="https://images.unsplash.com/photo-1625246333195-78d9c38ad451?auto=format&fit=crop&w=600&q=80" alt="Plantação verdejante sob o sol com sistema de irrigação inteligente">
+                <div class="card-conteudo">
+                    <h2>Tecnologia de Irrigação</h2>
+                    <p>Sistemas automatizados de gotejamento reduzem o desperdício de água em até 40%, otimizando a produção em períodos de estiagem prolongada.</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <img class="card-img" src="https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?auto=format&fit=crop&w=600&q=80" alt="Trator moderno operando no campo durante o entardecer com luzes acesas">
+                <div class="card-conteudo">
+                    <h2>Maquinário Autônomo</h2>
+                    <p>O uso de tratores controlados por GPS e inteligência artificial eleva a precisão do plantio, reduzindo a compactação do solo e economizando combustível.</p>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Portal de Agronomia. Conteúdo totalmente acessível e responsivo.</p>
+    </footer>
+
+    <script>
+        // --- 1. CONTROLE DE TEMA (CLARO / ESCURO) ---
+        function alternarTema() {
+            const htmlElement = document.documentElement;
+            const temaAtual = htmlElement.getAttribute('data-theme');
+            
+            if (temaAtual === 'dark') {
+                htmlElement.removeAttribute('data-theme');
+                localStorage.setItem('tema', 'light');
+            } else {
+                htmlElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('tema', 'dark');
+            }
+        }
+
+        // --- 2. CONTROLE DE TAMANHO DA FONTE ---
+        let tamanhoBase = 16;
+        function alterarFonte(direcao) {
+            tamanhoBase += direcao * 2;
+            // Limites de segurança para não quebrar o layout (entre 12px e 24px)
+            if (tamanhoBase < 12) tamanhoBase = 12;
+            if (tamanhoBase > 24) tamanhoBase = 24;
+            
+            document.documentElement.style.setProperty('--fonte-tamanho-base', tamanhoBase + 'px');
+        }
+
+        // --- 3. OPÇÃO DE ÁUDIO (TEXT-TO-SPEECH) ---
+        let sintetizador = window.speechSynthesis;
+        let ouvindo = false;
+        let utopiaExpressao;
+
+        function alternarAudio() {
+            const btn = document.getElementById('btn-audio');
+            const conteudo = document.getElementById('conteudo-principal');
+
+            if (ouvindo) {
+                sintetizador.cancel();
+                conteudo.classList.remove('texto-lendo');
+                btn.innerHTML = '🔊 Ouvir Página';
+                ouvindo = false;
+            } else {
+                // Captura apenas o texto corrido do elemento principal
+                let textoParaLer = conteudo.innerText;
+                
+                utopiaExpressao = new SpeechSynthesisUtterance(textoParaLer);
+                utopiaExpressao.lang = 'pt-BR';
+                
+                utopiaExpressao.onend = function() {
+                    conteudo.classList.remove('texto-lendo');
+                    btn.innerHTML = '🔊 Ouvir Página';
+                    ouvindo = false;
+                };
+
+                conteudo.classList.add('texto-lendo');
+                btn.innerHTML = '⏹️ Parar Áudio';
+                ouvindo = true;
+                sintetizador.speak(utopiaExpressao);
+            }
+        }
+
+        // Carrega as preferências salvas do usuário ao iniciar a página
+        window.onload = function() {
+            const temaSalvo = localStorage.getItem('tema');
+            if (temaSalvo === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        };
+    </script>
+</body>
+</body>
